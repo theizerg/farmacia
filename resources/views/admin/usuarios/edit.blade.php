@@ -15,7 +15,7 @@
           @can('RegistrarUsuario')
           <a href="{{ url('user/create') }}" class="btn blue darken-4 text-white "><i class="fa fa-plus-square"></i> Ingresar</a>
           @endcan
-          <a href="{{ url('user', [$user->encode_id]) }}" class="btn blue darken-4 text-white "><i class="fa fa-eye"></i> Datos</a>
+          <a href="{{ url('user', [$user->id]) }}" class="btn blue darken-4 text-white "><i class="fa fa-eye"></i> Datos</a>
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
             </div>
           <div class="card-body">
             <form role="form" id="main-form" autocomplete="off">
-            <input type="hidden" id="_url" value="{{ url('user',[$user->encode_id]) }}">
+            <input type="hidden" id="_url" value="{{ url('user',[$user->id]) }}">
             <input type="hidden" id="_token" value="{{ csrf_token() }}">   
             <div class="box-body">
               <div class="form-group pading">

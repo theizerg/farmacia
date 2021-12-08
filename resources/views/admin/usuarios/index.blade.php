@@ -53,10 +53,10 @@
                <td><span class="badge text-white {{ $user->status ? 'badge-success' : 'badge-danger' }}">{{ $user->display_status }}</span></td>
                 <td>
                  @can('VerUsuario')
-                 <a class="btn btn-round blue darken-4" href="{{ url('user', [$user->encode_id]) }}"><i class="mdi mdi-face text-center" style="color: white;"></i> </a>
+                 <a class="btn btn-round blue darken-4" href="{{ url('user', [$user->id]) }}"><i class="mdi mdi-face text-center" style="color: white;"></i> </a>
                  @endcan
                 @can('EditarUsuario')
-                 <a class="btn btn-round blue darken-4" href="{{ url('user', [$user->encode_id,'edit']) }}"><i class="mdi mdi-pencil text-white text-center" style="color: white;"></i> </a>
+                 <a class="btn btn-round blue darken-4" href="{{ url('user', [$user->id,'edit']) }}"><i class="mdi mdi-pencil text-white text-center" style="color: white;"></i> </a>
                @endcan
                  
               </td>
