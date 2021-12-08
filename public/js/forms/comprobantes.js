@@ -86,7 +86,7 @@ $(document).ready(function (){
 						$("#listaBusquedaProducto").html("");                        
 						for (i = 0; i < productos.length; i++) { 
 							$("#listaBusquedaProducto").append(
-								$('<option></option>').val(productos[i].codigo).html(productos[i].nombre + ", " + productos[i].stock + " unidades.")
+								$('<option></option>').val(productos[i].codigo).html(productos[i].nombre + ", " +productos[i].marca_producto +", " + productos[i].stock + " unidades.")
 							);
 						}
 					}				
@@ -245,8 +245,10 @@ var listadoArticulos = [
 */
 ]
 function agregarArticulo(data){
+
 	if(data["productos"].length > 0){
 		var producto = data["productos"][0];
+
 		var producto_codigo = producto["codigo"];
 		var productoBuscado = buscarArticuloEnListado(producto_codigo);
 		if( productoBuscado == null){
@@ -263,9 +265,9 @@ function agregarArticulo(data){
 					'precio': producto_precio,
 					'stock': producto_stock,
 					'cantidad': producto_cantidad,
-					'subTotal': (producto_precio * producto_cantidad).toFixed(2),
+					'subTotal': (producto_precio * producto_cantidad),
 					'iva': 0,
-					'total': (producto_precio * producto_cantidad).toFixed(2),
+					'total': (producto_precio * producto_cantidad),
 				};
 			}
 		}else{
@@ -287,7 +289,7 @@ function modificarStock(codigo, cantidad){
 		articulo["cantidad"] = cantidad;
 		articulo["subTotal"] = parseFloat(cantidad * articulo["precio"]);
 		articulo["iva"] = 0;
-		articulo["total"] = parseFloat(articulo["subTotal"] + articulo["iva"]).toFixed(2);
+		articulo["total"] = parseFloat(articulo["subTotal"] + articulo["iva"]);
 
 		actualizarTablaArticulos();
 	}
@@ -299,7 +301,7 @@ function modificarPrecio(codigo, precio){
 		articulo["precio"] = precio;
 		articulo["subTotal"] = parseFloat(articulo["cantidad"] * precio);
 		articulo["iva"] = 0;
-		articulo["total"] = parseFloat(articulo["subTotal"] + articulo["iva"]).toFixed(2);
+		articulo["total"] = parseFloat(articulo["subTotal"] + articulo["iva"]);
 
 		actualizarTablaArticulos();
 	}
@@ -355,7 +357,7 @@ function actualizarTablaArticulos(){
 	$("#tablaResumen").append(
 		$('<tr></tr>').html(
 			"<th width='120px'>Sub Total</th><td>"
-			+ resumen_sub_total.toFixed(2)
+			+ resumen_sub_total
 			+ "</td>"
 		)
 	);
@@ -363,7 +365,7 @@ function actualizarTablaArticulos(){
 	$("#tablaResumen").append(
 		$('<tr></tr>').html(
 			"<th>Total</th><td>"
-			+ resumen_total.toFixed(2)
+			+ resumen_total
 			+ "</td>"
 		)
 	);

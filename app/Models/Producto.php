@@ -75,7 +75,6 @@ class Producto extends Model
         $lineaProducto->descripcion = $descripcion;
         $lineaProducto->cantidad = $cantidad;
         $lineaProducto->fecha = date("Y-m-d H:i:s");
-        $lineaProducto->created_at = date("Y-m-d H:i:s");
         $lineaProducto->save();
     }
 

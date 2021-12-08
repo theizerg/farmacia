@@ -5,7 +5,7 @@
 @section('page_subtitle', 'Editar')
 @section('content')
 
-  <section class="container">
+  <section class="container-fluid mt--6">
     <div class="row">
       <div class="col-md-6">
         <div class="btn-group">

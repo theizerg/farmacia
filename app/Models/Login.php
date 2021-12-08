@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Login extends Model
 {
+    use HasFactory;
+
+
     protected $dates = ['login_at', 'logout_at'];
 
     protected $searchable = [
@@ -42,5 +46,4 @@ class Login extends Model
                    $q->select(['id', 'name', 'lastname']);
               }]);
     }
-
 }

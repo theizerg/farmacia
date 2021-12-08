@@ -76,22 +76,6 @@
 										<td style="color: #aaa;">- - -</td>
 									@endif
 								</tr>
-								<tr>
-									<td>Descripción</td>
-									@if($comprobante->descripcion)
-										<td>{{ $comprobante->descripcion }}</td>
-									@else
-										<td style="color: #aaa;">- - -</td>
-									@endif
-								</tr>
-								<tr>
-									<td>Diferencia (Bs o $)</td>
-									@if($comprobante->diferencia)
-										<td>{{ $comprobante->diferencia }}</td>
-									@else
-										<td style="color: #aaa;">- - -</td>
-									@endif
-								</tr>
 
 
 								<tr>

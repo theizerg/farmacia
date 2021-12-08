@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card card-line-primary">
-				<div class="card-primary card-outline card-header">
+				<div class=" card-header">
 					<h4>Apertura de caja</h4>
 				</div>
 

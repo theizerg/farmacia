@@ -17,7 +17,7 @@
                 <div class=" card-header">
                     <h4>Proveedores</h4>
                 </div>
-				<br>
+				
                 <div class="card-body">                	
                 	<ul class="list-inline">
 						<li class="list-inline-item">
@@ -30,12 +30,12 @@
 								Proveedores &nbsp; &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i>
 							</a>
 						</li>
-					</ul><br>
+					</ul>
                     
                     <div class="row">
-                    	<div class="card-body"><br>
+                    	<div class="card-body">
 	                        <div class="table-responsive">
-								<table width="97%" class="table table-striped display " id="example1">
+								<table width="97%" class="table table-striped display ">
 									<thead>
 										<tr>
 											<th >ID</th>

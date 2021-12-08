@@ -30,7 +30,7 @@
                 </a>
               </li>
             </ul><br>
-          <table  class=" table table-striped table-responsive display" >
+          <table  class="display table table-striped table-responsive " style="width:100%">
               <thead>
               <tr>
               <th>#</th>

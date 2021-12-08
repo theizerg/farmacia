@@ -5,7 +5,7 @@
 @section('page_subtitle', 'Ingresar')
 @section('content')
 
-  <section class="container">
+  <section class="section mt--6">
     <div class="row">
       <div class="col-md-6">
         <div class="btn-group">
@@ -122,6 +122,7 @@
 @endsection
 
 @push('scripts')
+ 
     <script>
       $(function () {
         $('input').iCheck({
@@ -131,5 +132,6 @@
         });
       });
     </script>
+   
     <script src="{{ asset('js/admin/user/create.js') }}"></script>
 @endpush

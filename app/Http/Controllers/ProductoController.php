@@ -62,7 +62,7 @@ class ProductoController extends Controller
 
     public function nuevo()
     {
-        $productos = Producto::all();
+        $productos = Producto::get();
         $sucursales = Sucursales::pluck('nombre','id');
         $moneda = Moneda::find(1);
         $familias_producto = FamiliaProducto::orderBy('nombre')->get();
@@ -70,8 +70,8 @@ class ProductoController extends Controller
     }
 
     public function guardar(Request $request){        
-       // dd($request);
         
+        //dd($request);
         // validaciones
         $this->validate($request, [                 
             'codigo' => 'required',
@@ -105,13 +105,12 @@ class ProductoController extends Controller
             //Acá se hace el alta
             $producto = new Producto();
             $producto->codigo  = $request->codigo;
+            $producto->marca_producto  = $request->marca_producto;
             $producto->codigo_de_barras  = $request->codigo_de_barras;
             $producto->nombre  = $request->nombre;
             $producto->descripcion  = nl2br($request->descripcion);
             //$producto->precio_compra  = $request->precio_compra;
             $producto->sucursal_id  = $request->sucursal_id;
-            $producto->marca  = $request->marca;
-            $producto->modelo =$request->modelo;
 
             
 
@@ -191,7 +190,7 @@ class ProductoController extends Controller
 
 
         if(is_null($producto)){
-           $notification = array(
+          $notification = array(
             'message' => '¡El producto no existe!',
             'alert-type' => 'error'
         );
@@ -209,12 +208,9 @@ class ProductoController extends Controller
             $producto->codigo_de_barras     = $request->codigo_de_barras;
             $producto->descripcion          = nl2br($request->descripcion);
             $producto->familiaproducto_id   = $request->familia_producto;
-             $producto->tasa_iva_id  = 1;
+             $producto->tasa_iva_id  = 1;;
 
-            //   dd($request);
             $producto->sucursal_id  = $request->sucursal_id;
-            $producto->marca  = $request->marca;
-            $producto->modelo = $request->modelo;
             $producto->stock                = $request->stock;
             if($request->precio!='' || $request->precio>0){
                 if($request->precio != $producto->precio){
@@ -236,14 +232,30 @@ class ProductoController extends Controller
             $gananciaPorCompraVenta =  ($venta -  $compra);
             $gananciaporproducto    = $gananciaPorCompraVenta * $request->stock;
 
-            $ganancia = Ganancia::where('producto_id', $request->producto_id)->first();
+            $ganancias = Ganancia::where('producto_id', $request->producto_id)->first();
+            if (is_null($ganancias)) {
             
-            $ganancia->producto_id = $producto->id;
+            $ganancia = new Ganancia();
+
+            $ganancia->producto_id = $request->producto_id;
             $ganancia->cantidad    = $producto->stock;
             $ganancia->ganancia_por_producto = $gananciaPorCompraVenta;
             $ganancia->total = $gananciaporproducto;
 
             $ganancia->save();
+            } else {
+            
+            $ganancia = Ganancia::where('producto_id', $request->producto_id)->first();
+           
+            $ganancia->producto_id = $ganancia->producto_id;
+            $ganancia->cantidad    = $producto->stock;
+            $ganancia->ganancia_por_producto = $gananciaPorCompraVenta;
+            $ganancia->total = $gananciaporproducto;
+
+            $ganancia->save();
+            }
+            
+            
            // dd($ganancia);
 
 

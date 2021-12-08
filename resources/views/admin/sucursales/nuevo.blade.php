@@ -18,7 +18,7 @@
 						</li>
 					 <li class="list-inline-item">
 							<a href="/sucursales" class="link_ruta">
-								Clientes &nbsp; &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i>
+								Sucursales &nbsp; &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i>
 							</a>
 						</li>
 					 <li class="list-inline-item">
@@ -83,7 +83,7 @@
 	                						@foreach($sucursales->sortByDesc('created_at')->take(8) as $c)
 	                							<tr>
 	                								<td>
-	                									<a href="/clientes/detalle/{{ $c->id}}">
+	                									<a href="/sucursales/detalle/{{ $c->id}}">
 	                										@if($c->empresa)
 	                											<i style="width: 20px;" class="fa fa-briefcase text-center" aria-hidden="true"></i>
 	                										@else

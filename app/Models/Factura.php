@@ -40,4 +40,6 @@ class Factura extends Model
 		$query->join('comprobantes', 'comprobantes.id', '=', 'facturas.comprobante_id')
 					->where('comprobantes.cliente_id', '=', $texto, $boolean);
 	}
+
+	
 }

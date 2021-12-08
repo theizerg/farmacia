@@ -14,8 +14,8 @@ class Proveedor extends Model
 
 	protected $dates = ['deleted_at'];
 
-	public function comprobantes(){
-		return $this->hasMany(Comprobante::class);
+	public function compras(){
+		return $this->hasMany(Compras::class, 'proveedor_id');
 	}
 
 	// FILTROS

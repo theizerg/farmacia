@@ -41,27 +41,6 @@ return [
     'VerLogins' => 'Ver Inicio de sesión',
     'VerLogSistema' => 'Ver Log del sistema',
 
-    /*Productos */
-    'VerProducto' => 'Ver producto',
-    'RegistraProducto'  => 'Regisrar producto',
-    'EditaProducto'  => 'Editar producto',
-    'EliminaProducto' => 'Eliminar producto',
-
-    /*Clientes */
-    'VerCliente' => 'Ver Cliente',
-    'RegistrarCliente'  => 'Regisrar Cliente',
-    'EditaCliente'  => 'Editar Cliente',
-    'EliminaCliente' => 'Eliminar Cliente',
-
-     /*Proveedores */
-    'VerProveedor' => 'Ver Proveedor',
-    'RegistrarProveedor'  => 'Regisrar Proveedor',
-    'EditaProveedor'  => 'Editar Proveedor',
-    'EliminaProveedor' => 'Eliminar Proveedor',
-
-
-
-
 
     
     

@@ -41,9 +41,9 @@
 							@foreach($venta_detalle_1 as $historial)
 							<tr >
                                 <td>{{$historial->id}}</td>		
-                                <td><a href="/productos/detalle/{{$historial->producto->codigo  }}">{{$historial->producto->nombre}}</a></td>
+                                <td>{{$historial->producto->nombre}}</td>
                                 <td>${{$historial->producto->precio_compra }}</td>
-                                <td>${{$historial->total - $historial->producto->precio_compra}}</td>
+                                <td>${{str_replace(',', '.', $historial->total) - str_replace(',', '.',$historial->producto->precio_compra) }}</td>
                                 <td>{{$historial->cantidad}}</td>
                                 <td>{{$historial->descripcion}}</td>
                                 <td>{{$historial->fecha}}</td>	

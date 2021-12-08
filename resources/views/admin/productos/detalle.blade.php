@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
 	<div class="row">
+		@can('RegistraProducto')
 		<div class="col-sm-6">
 			<span class="float-left">
 				<a class="btn btn-md blue darken-4 text-white" href="/productos/nuevo" class="btn btn-link">
@@ -10,11 +11,12 @@
 				</a>
 			</span>
 		</div>
+		@endcan
 	</div><br>
 	<div class="row">
 		<div class="col-md-12">
-			<div class="card">
-				<div class="card-primary card-outline card-header">
+			<div class="card card-primary ">
+				<div class="card-outline card-header">
 					<h4>Detalle de producto</h4>
 				</div>
 				<div class="card-body">
@@ -41,11 +43,13 @@
 							<div class="col-md-4">
 								<legend>
 									Detalle del producto
+									@can('RegistraProducto')
 									<span class="float-right">
 										<a class="btn btn-link btn-sm" id="editCodigo" data-toggle="modal" data-target="#modalEditarProducto">
 											<i class="fas fa-edit fa-lg" aria-hidden="true"></i>
 										</a>
 									</span>
+									@endcan
 								</legend>								
 								<div class="form-group">
 									<table class="table table-condensed table-striped table-bordered" width="100%">
@@ -62,18 +66,6 @@
 											<td>Nombre</td>
 											<td> 
 												{{ $producto->nombre }}
-											</td>
-										</tr>
-										<tr>
-											<td>Marca</td>
-											<td> 
-												{{ $producto->marca }}
-											</td>
-										</tr>
-										<tr>
-											<td>Modelo</td>
-											<td> 
-												{{ $producto->modelo }}
 											</td>
 										</tr>
 										<tr>
@@ -222,11 +214,11 @@
 														<td  class="text-center">
 															@if( $producto->stock_minimo_notificar )
 																<input type="hidden" id="activado" value="true">
-																<span class="badge bg-success" >Activado</span>
+																<span class="badge badge-success" >Activado</span>
 																<a href="/productos/{{$producto->codigo}}/NotifStockMin">Desactivar</a>
 															@else
 																
-																<span class="badge bg-danger">Desactivado</span>
+																<span class="badge badge-danger">Desactivado</span>
 																<a href="/productos/{{$producto->codigo}}/NotifStockMin">Activar</a>
 															@endif
 														</td>
@@ -290,20 +282,6 @@
 										
 									</tr>
 									<tr>
-										<th>Marca</th>
-										<td>
-											<input id="txtNombre" type="text" class="form-control input-sm" name="marca" placeholder="Nombre del producto" value="{{$producto->marca}}" required>
-										</td>
-										
-									</tr>
-									<tr>
-										<th>Modelo</th>
-										<td>
-											<input id="txtNombre" type="text" class="form-control input-sm" name="modelo" placeholder="Nombre del producto" value="{{$producto->modelo}}" required>
-										</td>
-										
-									</tr>
-									<tr>
 										<th>Código de barras</th>
 										<td>
 											<input id="txtCodigoDeBarras" type="text" class="form-control input-sm" name="codigo_de_barras" placeholder="Codigo de barras del producto" value="{{$producto->codigo_de_barras}}" >
@@ -313,7 +291,7 @@
 									<tr>
 										<th>Categoría</th>
 										<td>
-											<select id="selectFamiliaProducto" class="form-control input-sm select2bs4" name="familia_producto">
+											<select id="selectFamiliaProducto" class="form-control" name="familia_producto">
 												@foreach( $familias_producto as $f)
 													@if($f->id == $producto->familia->id)
 														<option value="{{ $f->id}}" selected="true">{{ $f->nombre }}</option>
@@ -340,6 +318,12 @@
 										
 									</tr>
 									<tr>
+										<th class="">Precio de compra</th>
+										<td>
+											<input class="form-control input-sm factura-required" type="text" name="precio_compra" placeholder="Marca del papel" value="{{$producto->precio_compra}} ">
+										</td>
+									</tr>
+									<tr>
 										<th>
 											Precio de venta ({{ App\Models\Moneda::find(2)->simbolo }}) 
 										</th>
@@ -348,23 +332,12 @@
 											<input id="txtPrecio" class="form-control input-sm" name="precio" placeholder="Precio" value="{{$producto->precio}}">
 										</td>										
 									</tr>
-									
-								
-									
-									<tr>
-										<th class="">Precio de compra</th>
-										<td>
-											<input class="form-control input-sm factura-required" type="text" name="precio_compra" placeholder="Marca del papel" value="{{$producto->precio_compra}} ">
-										</td>
-									</tr>
-
 									<tr>
 										<th class="">Sucursal</th>
 										<td>
 											 {!! Form::select('sucursal_id', $sucursales, null,array('class' => 'form-control input-sm','id'=>'sucursal_id')) !!} 
 										</td>
 									</tr>
-
 																		
 								</table>
 								<input type="submit" name="" value="Guardar cambios" class="btn blue darken-4 btn-block text-white">
@@ -380,7 +353,7 @@
 	</div>
 </div>
 <div class="modal fade" id="modalHistoricoPrecios" role="dialog">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4>
@@ -439,5 +412,42 @@
 	});
 </script>
 
+<script>
+	$(document).ready(function() {
+
+		
+
+     form = $('#form_nuevo_producto');
+     $(".form_factura_credito").hide();
+     $('#nu_cantidad_tipo_pago').val(0);
+     $('#selectFamiliaProducto').on("change", function(e) { //asigno el evento change u otro
+    if ( $("#selectFamiliaProducto").val() == 2)
+	    {
+	    	
+	      $(".form_factura_credito").show();
+          
+
+
+	    }
+	else
+	{
+          $(".form_factura_credito").hide();
+	}
+
+
+
+    });
+
+
+
+    });
+   
+</script>
+<script type="text/javascript">
+	//Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+</script>
 
 @endpush

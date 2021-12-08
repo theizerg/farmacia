@@ -93,17 +93,27 @@ class ProveedoresController extends Controller
         return Redirect::to($url)->with($notification);
     }
 
-    public function detalle($proveedor_id){     
-        $proveedor = Proveedor::find($proveedor_id);  
-       // dd($proveedor);      
-        if($proveedor){
-            return view('admin.proveedores.detalle')->with(compact('proveedor'));
-        }else{
-             $mensaje = array(
-                        'message' => 'El proveedor no existe!',
-                        'alert-type' => 'error'
-                    );
-            return Redirect::to('/proveedores')->with($mensaje);
-        }
+     public function detalle($cliente_id){
+      
+        $proveedor = Proveedor::find($cliente_id);
+
+        $compras = $proveedor->compras()->get();
+        
+      
+         
+        return view('admin.proveedores.detalle')->with(compact('proveedor', 'compras'));
+    }
+
+     public function buscar(Request $request){
+        $texto = $request->texto;
+
+        $proveedores = Proveedor::FiltrarPorNombre($texto)
+                        ->FiltrarPorRazonSocial($texto)
+                        ->FiltrarPorRut($texto)
+                        ->FiltrarPorMail($texto)
+                        ->get();
+        return Response()->json([
+            'proveedores' => $proveedores
+        ]);
     }
 }

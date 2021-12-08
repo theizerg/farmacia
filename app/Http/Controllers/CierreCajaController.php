@@ -109,8 +109,11 @@ class CierreCajaController extends Controller
             ['status' => '0']
         );
 
-        $mensaje = "Cierre de caja satisfactorio.";  
-					return \Redirect::to('/cierre')->with(compact('mensaje'));
+        $notification = array(
+            'message' => '¡Cierre de caja realizado!',
+            'alert-type' => 'success'
+        );
+					return \Redirect::to('/cierre')->with($notification);
     }
 
     /**

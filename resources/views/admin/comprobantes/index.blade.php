@@ -28,11 +28,11 @@
 							<thead>
 							<tr>								
 								<th class="text-center " width="120px">Fecha emisión</th>
-								<th class="text-center " width="200px">Tipo de venta</th>
+								<th class="text-center " width="100px">Tipo de venta</th>
 							<!--
 								<th class="text-center ">Descripción</th>
 							-->
-								<th class="text-center ">Cliente</th>
+								<th class="text-center">Cliente</th>
 								<th class="text-center " class="text-center " width="120px">Sub-total</th>
 								<th class="text-center " class="text-center " width="120px">Total</th>
 								<th class="text-center">OPCIÓN</th>	
@@ -67,7 +67,7 @@
 									</a>
 								</td>
 								@else
-								<td >
+								<td class="text-center" >
 									------
 								</td>
 								@endif

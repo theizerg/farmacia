@@ -5,7 +5,7 @@
 	<div class="row">    
 		<div class="col-md-12">
 			<div class="card card-line-primary">
-				<div class="card-primary card-outline card-header">
+				<div class=" card-header">
 					<h4>Vista general del historial de las cajas</h4>
 				</div>
 				<div class="card-body">
@@ -23,7 +23,7 @@
 					</ul><br>
 			
 					<div class="table-responsive">
-						<table id="example" class="table table-hover table-border">
+						<table id="example" class="table table-hover table-border display">
 							<thead>
 							<tr>
 								<th >ID</th>	
@@ -51,8 +51,7 @@
 			</div>
 		</div>
 	</div>
-	@include('partials.mensajes');
+
 </div>
 
 @endsection
-

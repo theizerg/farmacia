@@ -4,8 +4,8 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<div class="card">
-				<div class="card-primary card-outline card-header">
+			<div class="card card-line-primary card-header">
+				<div class=" ">
 					<h4>Detalle del empleado</h4>
 				</div>
 				<div class="card-body">

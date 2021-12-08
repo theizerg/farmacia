@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-primary card-outline card-header">
+        <div class="card-line-primary">
           <h4>Edición de los datos del empleado</h4>
         </div>
 

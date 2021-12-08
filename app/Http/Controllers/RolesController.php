@@ -37,7 +37,6 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        
         $user = Role::create($request->all());
 
         $log = new LogSistema();

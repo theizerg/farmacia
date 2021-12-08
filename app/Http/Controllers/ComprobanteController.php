@@ -18,6 +18,9 @@ use App\Models\Moneda;
 use App\Models\Sucursales;
 use App\Models\AperturaCaja;
 use App\Models\MovimientoCaja;
+use App\Models\Proveedor;
+use App\Models\FacturasCompras;
+use App\Models\RecibosCompras;
 use Auth;
 
 class ComprobanteController extends Controller
@@ -56,15 +59,17 @@ public function apertura()
     
     
         $usuario= Auth::user()->id;
-        $apertura=AperturaCaja::where('fecha_emision',$date)->get();
-        //dd($apertura);
+        $apertura=AperturaCaja::where('fecha_emision',$date)
+        ->where('status',1)
+        ->get();
+       
 
         return ( count($apertura) > 0) ? true : false ;
     }
 
     public function nuevo()
     {
-
+ 
         $apertura = $this->apertura();
 
         if ($apertura) {
@@ -89,7 +94,8 @@ public function apertura()
      }
 
     public function guardar(Request $request)
-    {
+    {   
+
          
         $tipo_comprobante = $request->tipo_comprobante;     
         // 1- Venta al contado
@@ -109,8 +115,9 @@ public function apertura()
             $comprobante->serie = $request->serie;
             $comprobante->numero = $request->numero;        
             $comprobante->fecha_emision = $request->fecha_emision;
-            $comprobante->descripcion = $request->descripcion;
-            $comprobante->diferencia = $request->diferencia;
+            $comprobante->cantidad_diferencia = $request->cantidad_diferencia;
+            $comprobante->descripcion_diferencia = $request->descripcion_diferencia;        
+            
             
             $comprobante->descripcion_1 = $request->descripcion_1;
             $comprobante->descripcion_2 = $request->descripcion_2;
@@ -150,7 +157,16 @@ public function apertura()
             for ($i=0; $i < count($articulos); $i++) {
                 $producto = Producto::BuscarPorCodigo($articulos[$i]->codigo)->first();
                 $linea = $articulos[$i];
-                //dd($linea, $producto);
+                
+                     if ($linea->cantidad > $producto->stock) {
+                    
+                     $notification = array(
+                    'message' => '¡No dispone de la cantidad solicitada!',
+                    'alert-type' => 'error'
+                     );      
+                     return \Redirect::to('comprobantes/nuevo')->with($notification);     
+                }
+
                 if($producto->stock >= $linea->cantidad){
                     $lineaProducto = new LineaProducto();
                     $lineaProducto->comprobante()->associate($comprobante);
@@ -210,15 +226,20 @@ public function apertura()
 
                     //$tipoPago = $movimiento->tipoPago->nb_tipo_pago;
 
-                           
+                        
 
                     if ($movimiento->moneda->nombre == 'Dólares') {
+
+                     if ($request->select_diferencia <> null) {
+                      
+                       $movimiento->descripcion = 'El vendedor '.''.\Auth::user()->display_name.' ha realizado una '.$movimiento->tipo->nombre.' El cliente canceló en: '.$movimiento->moneda->nombre.' El método de pago fue realizado por: '.$movimiento->tipoPago->nb_tipo_pago.' por un total de: '.$lineaProducto->total.'$'.' Con la tasa del día en '.$comprobante->cotizacion.' Bs '.$request->descripcion_diferencia;    
                     
-              
-                      $cotizacion = $request->cotizacion;
-                      $totalDolares = $lineaProducto->total;
-                      $total = ($cotizacion * $totalDolares );
-                      $movimiento->descripcion = 'El vendedor '.''.\Auth::user()->display_name.' ha realizado una '.$movimiento->tipo->nombre.' El cliente canceló en: '.$movimiento->moneda->nombre.' El método de pago fue realizado por: '.$movimiento->tipoPago->nb_tipo_pago.' por un total de: '. number_format($totalDolares,2) .'$'.' Con la cotización del dólar en: '.number_format($cotizacion,2).'Bs '.'Nota: '.$request->descripcion.' El monto en Bolívares fué de:'.$request->diferencia.'Bs' ;
+                    }elseif ($movimiento->tipo->nombre == 'Devolución al contado') {
+                         $movimiento->descripcion = 'El vendedor '.''.\Auth::user()->display_name.' ha realizado una '.$movimiento->tipo->nombre.' El cliente está devolviendo el producto '.$producto->nombre.' por concepto de garantía';
+                      $movimiento->save();
+                    }else
+                      $movimiento->descripcion = 'El vendedor '.''.\Auth::user()->display_name.' ha realizado una '.$movimiento->tipo->nombre.' El cliente canceló en: '.$movimiento->moneda->nombre.' El método de pago fue realizado por: '.$movimiento->tipoPago->nb_tipo_pago.' por un total de: '.$lineaProducto->total.'$'.'Con la tasa del día en '.$comprobante->cotizacion.' Bs';
+
                       $movimiento->save();
                     }else{
 
@@ -227,34 +248,24 @@ public function apertura()
                   $totalDolares = $lineaProducto->total;
                   $total = ($cotizacion * $totalDolares );
 
+
+                  
+
+
                   $movimiento->descripcion = 'El vendedor '.''.\Auth::user()->display_name.' ha realizado una '.$movimiento->tipo->nombre.' El cliente canceló en: '.$movimiento->moneda->nombre.' El método de pago fue realizado por: '.$movimiento->tipoPago->nb_tipo_pago.' por un total de: '. number_format($total,2) .'Bs'.' Con la cotización del dólar en: '.number_format($cotizacion,2).'Bs';
 
                     $movimiento->save();
                     }
-
-                  if ($movimiento->tipo->nombre == 'Devolución al contado') {
-                         $movimiento->descripcion = 'El vendedor '.''.\Auth::user()->display_name.' ha realizado una '.$movimiento->tipo->nombre.' El cliente está devolviendo el producto '.$producto->nombre.' por concepto de garantía';
-                      $movimiento->save();
-                    } 
-
-                  
-
-                
-                    
-
-
-                    
-
+                        
                     $lineaProducto->save();
                     $producto->save();
                    
 
 
                 }
-                $comprobante->total = $comprobante->iva + $comprobante->subTotal;      
-
-                 
+                $comprobante->total = $comprobante->iva + $comprobante->subTotal;               
                 $comprobante->save();                               
+
 
                 // Verificamos stock restante de producto para ver si notificar             
                 if($producto->stock_minimo_notificar && $producto->stock <= $producto->stock_minimo_valor){
@@ -263,7 +274,11 @@ public function apertura()
                     $link_texto = "Ir al producto";
                     $link = "/productos/detalle/" . $producto->codigo;
                     Notificacion::crearNotificacion($titulo, $texto, $link, $link_texto);
+
                 }
+
+
+               
             }
 
 
@@ -282,6 +297,9 @@ public function apertura()
                 $factura = SistemaFactura::getInstancia()->ingresarFactura($comprobante, $fecha_vencimiento, $deuda_original, $deuda_actual, $plazo);               
             }
 
+
+            
+            
             $notification = array(
                     'message' => '¡Venta cargada exitosamente!',
                     'alert-type' => 'success'
@@ -319,7 +337,7 @@ public function apertura()
         
          // dd();
               
-         $pdf->Image('images/logo/logo-vertical.png',10,5,80,20,'PNG');
+         $pdf->Image('images/logo/logo7_9_122716.png',5,2,40,40,'PNG');
          $pdf->SetY(10);
          $pdf->SetFont('Arial','B',12);
          $pdf->SetXY(150,10);
@@ -585,6 +603,7 @@ public function apertura()
         return view('admin.facturas.vencimientos')->with(compact('vencimientos'));
     }
 
+
     public function nuevoRecibo($cliente_id){
         $cliente = Cliente::where('id', $cliente_id)->first();
         $monedas = Moneda::all();       
@@ -615,6 +634,120 @@ public function apertura()
             return Redirect::to('/comprobantes/vencimientos')->with($notification);
         }
     }
+
+ 
+    public function nuevoReciboFactura($proveedor_id){
+        $proveedor = Proveedor::where('id', $proveedor_id)->first();
+        $monedas = Moneda::all();       
+        if($proveedor){
+            $facturas = FacturasCompras::with('compras')
+                    ->where('deuda_actual', '>', 0)
+                    ->orderby('fecha_vencimiento')
+                    ->where('proveedor_id',$proveedor_id)
+                    ->get();                   
+            $total_adeudado = 0;
+            $total_atrasado = 0;
+            for ($i=0; $i < sizeof($facturas) ; $i++) {
+                $total_adeudado += $facturas[$i]->deuda_actual;
+
+                $hoy = time();
+                $fecha_vencimiento = strtotime($facturas[$i]->fecha_vencimiento);
+                $date_diff = $fecha_vencimiento - $hoy;
+                $dias_restantes = round($date_diff / (60 * 60 * 24));
+
+                if($dias_restantes < 0)
+                    $total_atrasado += $facturas[$i]->deuda_actual;
+            }
+            return view('admin.facturas.nuevo_recibo_factura')->with(compact('proveedor', 'facturas', 'monedas', 'total_atrasado', 'total_adeudado'));
+        }else{
+           $notification = array(
+                    'message' => '¡No se encontró ningún proveedor para el ID especificado.!',
+                    'alert-type' => 'error'
+                     );   
+            return Redirect::to('/comprobantes/vencimientos')->with($notification);
+        }
+    }
+
+
+
+    public function guardarReciboFactura (Request $request){        
+        $facturas = json_decode($request->facturas_seleccionadas);      
+        
+
+        $usuario = Auth::user();
+        $moneda = Moneda::find($request->moneda);
+        $proveedor = Proveedor::find($request->proveedor);
+        
+        $fecha = $request->fecha;
+        $cotizacion = $request->cotizacion;
+        $monto = $request->monto;       
+
+       
+        try{
+            $recibo = new RecibosCompras();
+           
+            $recibo->moneda()->associate($moneda);      
+            $recibo->usuario()->associate($usuario);        
+            $recibo->proveedor()->associate($proveedor);
+            
+            $recibo->fecha = date("Y-m-d H:i:s");
+            $recibo->monto = $monto;
+            
+            if($cotizacion)
+                $recibo->cotizacion = $request->cotizacion;
+            
+            // Auxiliar para ir cancelando las facturas
+            $saldo_aux = $recibo->monto;            
+            // factura_id, deuda_actual, a_pagar, saldo_final
+            for ($i=0; $i < count($facturas); $i++) {               
+                if($saldo_aux > 0){
+                    $factura = FacturasCompras::find($facturas[$i]->factura_id);
+                    if($factura){
+                        if($factura->deuda_actual > 0){
+                            // PAGO PARCIAL O JUSTO
+                            if($factura->deuda_actual >= $saldo_aux){
+                                // variables temporales
+                                $deuda_inicial = $factura->deuda_actual;
+                                $deuda_final = round($factura->deuda_actual - $saldo_aux);
+                                
+                                // Asociamos recibo con todos sus datos a la factura.
+                                $factura->recibos()->save($recibo, ['deuda_inicial' => $deuda_inicial, 'deuda_final' => $deuda_final]);
+
+                                // Una vez hecho esto, actualizamos deuda de la factura
+                                $factura->deuda_actual = $deuda_final;
+                                
+                                $factura->save();
+                                $saldo_aux = 0;
+                            // ESTOY PAGANDO DE MAS
+                            }else{
+                                // variables temporales
+                                $deuda_inicial = $factura->deuda_actual;
+                                $deuda_final = 0;                               
+
+                                // Asociamos recibo con todos sus datos a la factura.
+                                $factura->recibos()->save($recibo, ['deuda_inicial' => $deuda_inicial, 'deuda_final' => $deuda_final]);
+
+                                // Restamos al saldo actual lo que pagamos
+                                $saldo_aux -= $deuda_inicial;
+                                $factura->deuda_actual = 0;
+                                $factura->save();
+                            }                           
+                        }
+                    }
+                }               
+            }
+            $notification = array(
+                    'message' => '¡El recibo fue ingresado correctamente!',
+                    'alert-type' => 'success'
+                     );  
+            return Redirect::to('comprobantes/recibos/factura/nuevo/'.$proveedor->id)->with($notification);
+        } catch ( \Illuminate\Database\QueryException $e) {
+            dd($e);
+            return Redirect::back();
+        }
+    }
+
+
 
     public function guardarRecibo(Request $request){        
         $facturas = json_decode($request->facturas_seleccionadas);      

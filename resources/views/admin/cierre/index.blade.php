@@ -4,16 +4,16 @@
 <div class="container">
 	<div class="row">  
 	<div class="btn-group">
-		<div class="col-sm-6">
+		<div class="col-sm-12">
 			
-		<a class="btn btn-md blue darken-4 text-white mb-3" href="/apertura/create" class="btn btn-link">
-			<i class="fa fa-user-plus" aria-hidden="true"></i> Nueva apertura
+		<a class="btn btn-md blue darken-4 text-white mb-3" href="/cierre/create" class="btn btn-link">
+			<i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo cierre
 		</a>
 
 		</div>
 	</div>
 		<div class="col-md-12">
-			<div class="card card-line-primary">
+			<div class="card card-primary">
 				<div class="card-primary card-outline card-header">
 					<h4>Vista general del cierre de caja</h4>
 				</div>
@@ -33,7 +33,7 @@
 					</ul><br>
 			
 					<div class="table-responsive">
-						<table id="example" cellspacing="0" width="100%" class="table table-hover">
+						<table id="example" cellspacing="0" width="100%" class="table table-hover display">
 							<thead>
 							<tr>
 								<th class="text-center">ID</th>	
@@ -70,33 +70,3 @@
 </div>
 
 @endsection
-
-@push('scripts')
-<script type="text/javascript">
-    $(document).ready(function() {
-
-    var table = $('#example').DataTable({
-    language: {
-        "decimal": "",
-        "emptyTable": "No hay información",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-        "infoPostFix": "",
-        "thousands": ",",
-        "lengthMenu": "Mostrar _MENU_ Entradas",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando...",
-        "search": "Buscar:",
-        "zeroRecords": "Sin resultados encontrados",
-        "paginate": {
-            "first": "Primero",
-            "last": "Ultimo",
-            "next": "Siguiente",
-            "previous": "Anterior"
-            }
-        },
-    });
-    } );
-        </script>
-@endpush

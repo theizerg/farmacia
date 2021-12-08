@@ -19,7 +19,11 @@ $(document).ready(function() {
             "next": "Siguiente",
             "previous": "Anterior"
             }
-        }
+        },
+         lengthChange: true,
+        buttons: [ 'copy', 'excel', 'pdf','print' ]
     });
 
+    table.buttons().container()
+        .appendTo( '.display_wrapper .col-md-6:eq(0)' );
 } );

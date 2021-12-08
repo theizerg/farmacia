@@ -92,7 +92,7 @@ class SucursalesController extends Controller
      */
      public function detalle($sucursal_id){
         $sucursal = Sucursales::find($sucursal_id);
-        return view('admin.sucursales.detalle')->with(compact('sucursal', 'comprobantes'));
+        return view('admin.sucursales.detalle')->with(compact('sucursal'));
     }
 
     /**

@@ -90,14 +90,15 @@
 						</div>
 						<input id="hiddenListado" type="hidden" name="listadoArticulos">
 						<div class="row">
-							<div class="col-md-4"><br>
+							<div class="col-md-12"><br>
 								<fieldset>
-									<div class="form-group col-md-12">
-									<legend>Datos de la venta</legend>
+									<div class="row">
+										<div class="form-group col-md-4">
+									
 										<label  for="txtFecha">Fecha de emisión</label>
 										<input id="txtFecha" type="date" name="fecha_emision" class="form-control input-sm">
-									</div>
-									<div class="form-group col-md-12">
+									</div><br><br>
+										<div class="form-group col-md-4">
 										<label  for="selectTipoComprobante">Tipo de venta</label>
 										<select id="selectTipoComprobante" name="tipo_comprobante" class="form-control input-sm" tabindex="2">
 											@foreach($tipos_comprobante as $t)
@@ -105,17 +106,19 @@
 											@endforeach											
 										</select>
 									</div>
-
-									<div class="form-group col-md-12 form_venta_contado form_factura_credito form_devolucion_contado">
+									<div class="form-group col-md-4 form_venta_contado form_factura_credito form_devolucion_contado">
 										<label  for="txtSerieComprobante">Serie</label>
 										<input name="serie" type="text" class="form-control input-sm" id="txtSerieComprobante" placeholder="Serie" tabindex="2" value="01">
 									</div>
-									<div class="form-group col-md-12 form_venta_contado form_factura_credito form_devolucion_contado">
+									<div class="form-group col-md-4 form_venta_contado form_factura_credito form_devolucion_contado">
+										<label  for="txtSerieComprobante">Cotización</label>
+										<input name="cotizacion" type="text" class="form-control input-sm" id="txtSerieComprobante" placeholder="Cotización del dólar">
+									</div>
+									<div class="form-group col-md-4 form_venta_contado form_factura_credito form_devolucion_contado">
 										<label  for="txtNumeroComprobante">Número</label>
 										<input name="numero" type="text" class="form-control input-sm" id="txtNumeroComprobante" placeholder="N° de Comprobante" tabindex="3">
 									</div>
-									
-									<div class="form-group col-md-12 form_venta_contado form_factura_credito form_devolucion_contado form_compra_contado">
+										<div class="form-group col-md-4 form_venta_contado form_factura_credito form_devolucion_contado form_compra_contado">
 										<label  for="txtMoneda">Moneda</label>
 										<select name="moneda" class="form-control input-sm" tabindex="4">
 											@foreach($monedas as $moneda)
@@ -123,37 +126,59 @@
 											@endforeach
 										</select>
 									</div>
-									<div class="form-group col-md-12">		
+									<div class="form-group col-md-4">		
 			           <label class="mt-1">Tipo de pago</label>
                   {!! Form::select('tipo_pago_id', $tipo, null,array('class' => 'form-control input-sm','placeholder'=>'Selecione el tipo de pago','id'=>'tipo_pago_id')) !!} 
-                  </div><br>
-
-					<div class="form-group col-md-12 form_venta_contado form_factura_credito form_devolucion_contado form_compra_contado">
-						<label  for="txtCotizacion">Cotización</label>
-						<input name="cotizacion" type="text" class="form-control input-sm" id="txtCotizacion" placeholder="Cotización" tabindex="5">
-					</div>
-					
-					<div class="form-group col-md-12">
-						<label  for="selectTipoComprobante">¿Requiere nota de entrega?</label>
-						<select id="selectTipoCliente" name="tipo_cliente" required class="form-control input-sm" tabindex="2">
-							    <option value="2">Seleccione</option>
-								<option value="1">Sí</option>
-								<option value="0">No</option>
-														
-						</select>
-					</div>
-					<div class="form-group col-md-12">
-						<label  for="selectDiferenncia">¿Diferencia en bolívares?</label>
-						<input name="diferencia" type="text" class="form-control input-sm" id="txtCotizacion" placeholder="Ingrese la diferencia a cancelar" value="0">
-					</div>
-					<div class="form-group col-md-12">		
+                  </div>
+                  <div class="form-group col-md-4">
+										<label  for="selectTipoComprobante">¿Requiere nota de entrega?</label>
+										<select id="selectTipoCliente" name="tipo_cliente" required class="form-control input-sm" tabindex="2">
+											    <option value="2">Seleccione</option>
+												<option value="1">Sí</option>
+												<option value="0">No</option>
+																		
+										</select>
+									</div>
+									<div class="form-group col-md-4">		
 			           <label class="mt-1">Sucursal</label>
-                           {!! Form::select('sucursal_id', $sucursales, null,array('class' => 'form-control input-sm','placeholder'=>'Selecione la sucursal','id'=>'sucursal_id')) !!} 
-                         </div><br>
+                  {!! Form::select('sucursal_id', $sucursales, null,array('class' => 'form-control input-sm','placeholder'=>'Selecione la sucursal','id'=>'sucursal_id')) !!} 
+                  </div>
+                  	<div class="form-group col-md-12">
+										<label  for="selectTipoComprobante">¿El cliente ha cancelado alguna diferencia?</label>
+										<select id="selectDireferencia" name="select_diferencia" class="form-control input-sm" tabindex="2">
+											  <option selected>Selecciona</option>
+												<option value="1">Sí</option>
+												<option value="0">No</option>			
+										</select>
+									</div>
+									
+										<div class="col-sm-6">
+											<div class="form-group form_venta_diferencia">
+										<label  class="form_venta_diferencia">Cantidad de diferencia</label>
+										<input name="cantidad_diferencia" type="text" class="form-control input-sm" id="txtSerieComprobante" placeholder="Cantidad de diferencia" >
+									</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group form_venta_diferencia">
+										<label  class="form_venta_diferencia">Descripción de diferencia</label>
+										<textarea name="descripcion_diferencia" class="form-control" id="" cols="30" rows="1"
+
+										>El cliente ha cancelado una diferencia de:  Referencia #</textarea>
+									</div>
+										</div>
+									</div>
+								
+									<br>
 									
 										<!-- CLIENTE -->
-									<div class="form-group col-md-12 form_venta_contado  form_factura_credito form_venta_cliente form_devolucion_contado">
-										<legend for="txtCliente">Datos del cliente</legend>
+									
+									<!-- PROVEEDOR -->
+														
+
+									<div class="row">
+										<legend for="txtCliente" class="text-center form_venta_cliente form_factura_credito">Datos del cliente</legend>
+										<div class="form-group col-md-4 form_venta_contado  form_factura_credito form_venta_cliente form_devolucion_contado">
+										
 										<label  for="txtCliente ">Nombre o razón social</label>
 										<div class="input-group">
 											<input id="hiddenCliente" type="hidden" name="cliente_id">
@@ -166,49 +191,45 @@
 										</div>
 									</div>
 
-									<!-- PROVEEDOR -->
-														
-
-									<div class="form-group col-md-12 form_venta_contado form_venta_cliente form_factura_credito form_devolucion_contado">
+										<div class="form-group col-md-4 form_venta_contado form_venta_cliente form_factura_credito form_devolucion_contado">
 										<label  for="txtDireccion">Dirección</label>
 										<input name="direccion" type="text" class="form-control input-sm" id="txtDireccion" placeholder="Dirección" tabindex="7">
 									</div>
-									<div class="form-group col-md-12 form_venta_contado  form_venta_cliente form_factura_credito form_devolucion_contado form_compra_contado">
+									<div class="form-group col-md-4 form_venta_contado  form_venta_cliente form_factura_credito form_devolucion_contado form_compra_contado">
 										<label  for="txtRif">RIF</label>
 										<input name="rif" type="text" class="form-control input-sm" id="txtRif" placeholder="RIF" tabindex="8">
 									</div>
-
-								
+									</div>
 
 									<!-- DATOS DE FACTURA -->
-									<div class="form-group col-md-12 form_factura_credito">
-										<legend>Datos de la factura</legend>
+									<div class="row">
+										<legend class="form_factura_credito text-center">Datos de la factura</legend>
+										<div class="form-group col-md-4 form_factura_credito">
+										
 										<label for="txtFechaVencimiento">Vencimiento</label>
 										<input class="form-control input-sm factura-required" type="date" name="fecha_vencimiento" placeholder="Vencimiento de la factura">
 									</div>
-									<div class="form-group col-md-12 form_factura_credito">
+									<div class="form-group col-md-4 form_factura_credito">
 										<label >Plazo</label>
 										<input class="form-control input-sm" type="number" name="plazo" placeholder="Plazo (en días)">
 									</div>
-									<div class="form-group col-md-12 form_factura_credito">
+									<div class="form-group col-md-4 form_factura_credito">
 										<label >Pago inicial</label>
 										<input class="form-control input-sm" type="number" name="pago_inicial" placeholder="Pago inicial">
 									</div>
 
-									<div class="form-group col-md-12">
-										<label >Descripción de venta</label>
-										<textarea name="descripcion" id="" cols="10" rows="10" class="form-control" value="">Sin diferencias
-										</textarea>
 									</div>
+
 									
 								</fieldset>
 							</div>
-							<div class="col-md-8 ">
+							
+							<div class="col-md-12 ">
 								<fieldset>
 									<legend>
 									<div class="row container form_venta_contado form_factura_credito form_devolucion_contado form_compra_contado">
 										<div class="col-md-6">
-											Buscar artículos <i class="fas fa-arrow-down ml-5 fa-2x"></i>
+											Buscar artículos
 										</div>
 										<div class="col-sm-12">
 											<div class="input-group float-right">
@@ -240,11 +261,11 @@
 												<tr>
 													<th class="text-center" width="100px">Código</th>
 													<th class="text-center">Artículo</th>
-													<th class="text-center" width="80px">Precio</th>
-													<th class="text-center" width="75px">Cantidad</th>
-													<th class="text-center" width="80px">Subtotal</th>
-													<th class="text-center" width="80px">Total</th>
-													<th class="text-center" width="30px"></th>
+													<th class="text-center" width="200px">Precio</th>
+													<th class="text-center" width="200px">Cantidad</th>
+													<th class="text-center" width="200px">Subtotal</th>
+													<th class="text-center" width="200px">Total</th>
+													<th class="text-center" width="200px"></th>
 												</tr>
 											</thead> 
 											<tbody id="tablaProductos">
@@ -420,6 +441,25 @@
 
 					$(".form_venta_cliente-required").prop('required',false);
 					$(".form_venta_cliente").hide();
+					
+					
+				}
+			});
+		});
+	</script>
+	<script type="text/javascript">
+  	
+		$(document).ready(function(){
+			$(".form_venta_cliente").hide();
+			$(".form_venta_diferencia").hide();
+			$("#selectDireferencia").on('change', function(){
+				if($("#selectDireferencia").val() == 1){
+					$(".form_venta_diferencia").show();
+					
+				}else{
+
+					$(".selectDireferencia").prop('required',false);
+					$(".form_venta_diferencia").hide();
 					
 					
 				}

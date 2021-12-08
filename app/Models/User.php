@@ -80,6 +80,10 @@ class User extends Authenticatable
         }
     }
 
+     public function notificaciones(){
+        return $this->belongsToMany(Notificacion::class, 'notificacion_usuarios', 'usuario_id', 'notificacion_id');
+    }
+
     /*
     |
     | ** Send the custom password reset notification **
@@ -90,25 +94,4 @@ class User extends Authenticatable
     {
         return Hashids::encode($this->id);
     }
-
-
-    
-    public function LineasProducto(){
-        return $this->hasMany(LineaProducto::class);
-    }
-
-    public function recibosEmitidos(){
-        return $this->hasMany(Recibo::class);
-    }
-
-    public function notificaciones(){
-        return $this->belongsToMany(Notificacion::class, 'notificacion_usuarios', 'usuario_id', 'notificacion_id');
-    }
-
-    public function preferencias(){
-        return $this->hasOne(Preferencias::class, 'usuario_id');
-    }
-
-
-
 }

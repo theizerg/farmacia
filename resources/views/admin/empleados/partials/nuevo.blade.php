@@ -18,13 +18,15 @@
 		</div>
 		<div class="form-group">
 			<label class="mt-1">Teléfono</label>
-			{!! Form::text('telefono', null,array('class' => 'form-control input-sm inputmask','id'=>'telefono','data-mask'=> "(9999) 999-9999",' placeholder'=>'Ingrese el Teléfono')) !!}
+			{!! Form::text('telefono', null,array('class' => 'form-control input-sm inputmask','id'=>'telefono','data-inputmask'=> '"mask": "(9999) 999-9999"','data-mask',' placeholder'=>'Ingrese el Teléfono')) !!}
 		</div>
+		
 			<div class="form-group">
 			<label class="mt-1" for="txtFecha">Fecha de nacimiento</label>
-			<div class="input-group date" id="nacimiento" data-target-input="nearest">
-                  {!! Form::date('fecha_nacimiento', null,array('class' => 'form-control input-sm  datetimepicker-input','data-target'=>'#nacimiento','id'=>'nacimiento-action', 'placeholder' => 'Fecha de nacimiento')) !!}
+			<div class="input-group date" id="reservationdate" data-target-input="nearest">
+                  {!! Form::text('fecha_nacimiento', null,array('class' => 'form-control input-sm  datetimepicker-input','data-target'=>'#reservationdate','data-toggle'=>'datetimepicker','id'=>'nacimiento-action', 'placeholder' => 'Fecha de nacimiento')) !!}
              </div>
+          
             </div>
 			<div class="form-group">
 			<label class="mt-1">Profesión</label>
@@ -38,8 +40,8 @@
 	     	</div>
 	     	<div class="form-group">
 			<label class="mt-1" for="txtFecha">Fecha de ingreso</label>
-			<div class="input-group date" data-target-input="nearest">
-                  {!! Form::date('fe_ingreso', null,array('class' => 'form-control input-sm','data-target'=>'#reservationdate','placeholder'=>'Fecha de ingreso','id' => 'ingreso-action')) !!}  
+			<div class="input-group date" id="ingresodate" data-target-input="nearest">
+                  {!! Form::text('fe_ingreso', null,array('class' => 'form-control input-sm  datetimepicker-input','data-target'=>'#ingresodate','data-toggle'=>'datetimepicker','id'=>'nacimiento-action', 'placeholder' => 'Fecha de ingreso a la empresa')) !!}
              </div>
              </div>
              <div class="form-group">

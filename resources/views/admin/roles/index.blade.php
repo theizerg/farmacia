@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
         <div class="col-md-6">
-          <div class="mr-5">
+          <div class="btn-group">
            
            @can('RegistrarRole')
             <a href="{{ url('roles/create') }}" class="btn blue darken-3 text-white "><i class="fa fa-plus-square"></i> Ingresar</a>  
@@ -38,7 +38,7 @@
                       </a>
                     </li>
                   </ul><br>
-               <table  class=" table table-striped display "  id="example1">
+               <table  class="display table table-striped " style="width:100%">
                     <thead>
                     <tr>
                     <th>#</th>
@@ -55,7 +55,7 @@
                     <td>{{ $role->guard_name }}</td>
                     <td>
                       @can('EditarRole')
-                       <a class="btn btn-round blue darken-4" href="{{ url('roles', [$role->encode_id,'edit']) }}"><i class="mdi mdi-pencil-outline text-center" style="color: white;"></i> </a>
+                       <a class="btn btn-round blue darken-4" href="{{ url('permission', [$role->name]) }}"><i class="mdi mdi-lock text-center text-white"></i> </a>
                      @endcan
                        
                     </td>

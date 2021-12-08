@@ -15,7 +15,10 @@ class HistorialCajaController extends Controller
     public function index()
     {
         
-        $historiales= MovimientoCaja::get();
+        $historiales= MovimientoCaja::
+        distinct('comprobante_id')
+        ->get();
+
         return view('admin.historial.index', compact('historiales'));
 
     }

@@ -6,7 +6,8 @@
 
 @section('content')
 
-<div class="container">
+<div class="container-fluid mt--6">
+
 <section class="content card card-line-primary">
 
    

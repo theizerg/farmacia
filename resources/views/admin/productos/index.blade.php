@@ -31,46 +31,55 @@
                 <tr>
                    <th>#</th>
         				   <th class="text-center">Código</th>
-        				   <th class="text-center">Nombre</th>
+        				   <th class="text-center">Nombre del producto</th>
+                   <th class="text-center">Marca del producto</th>
         				   <th class="text-center">Categoría</th>
         				   <th class="text-center">Precio</th>
-        				   <th class="text-center">Stock</th>
-                   <th class="text-center" >Opciones</th>                               
+        				   <th class="text-center">Cantidad disponible</th>
+                   @can('EditaProducto')
+                   <th class="text-center" >Opciones</th>
+                   @endcan                               
                 </tr>
               </thead>
-                @foreach ($productos as $p)
-                <tr>
-                  <td>{{$p->id}} </td>
-                 <td><a href="/productos/detalle/{{ $p->codigo}}">{{ $p->codigo}}</a></td>
-                  <td>
-                  	@if(strlen($p->nombre) > 24)
-						{{ substr($p->nombre, 0, 24) . "..."}}
-					@else
-						{{ $p->nombre }}
-					@endif
-                  </td>
-                  <td class="text-center">{{ $p->familia->nombre}}</td>
-                  <td>
-					&nbsp;
-					
-					<span class="text-center">
-						{{ App\Models\Moneda::find(2)->simbolo }}
-						{{ $p->precio}}
-					</span>
-				</td>
-				  <td class="text-center">{{ $p->stock}}</td>
-				    <td class="text-center">
-      						<a href="#formStock" id="{{$p->codigo}}" data-toggle="modal" data-target="#formStock" onclick='$("#form_stock").attr("action", "/productos/{{$p->codigo}}/ModificarStock");'>
-      							<i class="fas fa-exchange-alt" aria-hidden="true"></i>
-      						</a>
-				        </td>
-                </tr>
-                @endforeach
-              </table>
-               </div>
-            </div>
+              @foreach ($productos as $p)
+              <tr>
+                <td>{{$p->id}} </td>
+               <td><a href="/productos/detalle/{{ $p->codigo}}">{{ $p->codigo}}</a></td>
+                <td>
+                {{ $p->nombre }}
+                </td>
+                 <td>
+                  @if(strlen($p->marca_producto) > 24)
+          {{ substr($p->marca_producto, 0, 24) . "..."}}
+        @else
+          {{ $p->marca_producto }}
+        @endif
+                </td>
+
+                <td class="text-center">{{ $p->familia->nombre}}</td>
+                <td>
+				&nbsp;
+				
+				<span class="text-center">
+					{{ App\Models\Moneda::find(2)->simbolo }}
+					 {{$p->precio}}
+				</span>
+			</td>
+			  <td class="text-center">{{ $p->stock}}</td>
+        @can('EditaProducto')
+			    <td class="text-center">
+    						<a href="#formStock" id="{{$p->codigo}}" data-toggle="modal" data-target="#formStock" onclick='$("#form_stock").attr("action", "/productos/{{$p->codigo}}/ModificarStock");'>
+    							<i class="fas fa-exchange-alt" aria-hidden="true"></i>
+    						</a>
+			        </td>
+              @endcan
+              </tr>
+              @endforeach
+            </table>
+             </div>
           </div>
-          @include('partials.movimiento_stock')
         </div>
-    </div>
+        @include('partials.movimiento_stock')
+      </div>
+  </div>
 @endsection

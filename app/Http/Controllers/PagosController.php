@@ -54,7 +54,7 @@ class PagosController extends Controller
      */
     public function store(Request $request)
     {
-       
+       //dd($request);
         $empleado = Empleado::find($request->empleado_id);
 
         $pagos = new Pago();
@@ -121,7 +121,7 @@ class PagosController extends Controller
         }
         elseif ($request->tipo_pago_empleado_id == 3) {
 
-        $pagos->total                 = $empleado->sueldo_base; - $request->nu_cantidad_tipo_pago;
+        $pagos->total                 = $empleado->sueldo_base; - $request->total;
 
         $gastos = new Gastos();
         
@@ -155,7 +155,8 @@ class PagosController extends Controller
         }
          elseif ($request->tipo_pago_empleado_id == 1) {
 
-        $pagos->total                 = $empleado->sueldo_base; + $request->nu_cantidad_tipo_pago;
+        $pagos->total                 = $empleado->sueldo_base + $request->total;
+       
 
         $gastos = new Gastos();
 
@@ -192,7 +193,7 @@ class PagosController extends Controller
 
         elseif ($request->tipo_pago_empleado_id == 4) {
 
-        $pagos->total                 = $request->nu_cantidad_tipo_pago;
+        $pagos->total                 = $request->total;
 
         $gastos = new Gastos();
 
@@ -307,7 +308,7 @@ class PagosController extends Controller
         }
         elseif ($request->tipo_pago_empleado_id == 3) {
 
-        $pagos->total                 = $empleado->sueldo_base; - $request->nu_cantidad_tipo_pago;
+        $pagos->total                 = $empleado->sueldo_base; - $request->total;
 
         $pagos->update($request->all());
 
@@ -322,7 +323,7 @@ class PagosController extends Controller
         }
          elseif ($request->tipo_pago_empleado_id == 1) {
 
-        $pagos->total                 = $empleado->sueldo_base; + $request->nu_cantidad_tipo_pago;
+        $pagos->total                 = $empleado->sueldo_base; + $request->total;
 
         $pagos->update($request->all());
 
@@ -382,7 +383,7 @@ class PagosController extends Controller
         
         
               
-         $pdf->Image('images/logo/logo-vertical.png',10,5,80,20,'PNG');
+         $pdf->Image('images/logo/logo7_9_122716.png',5,2,40,40,'PNG');
          $pdf->SetY(10);
         
          $pdf->SetXY(150,10);

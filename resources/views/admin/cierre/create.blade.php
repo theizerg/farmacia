@@ -4,8 +4,8 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<div class="w3-card-4 w3-white">
-				<div class="card-primary card-outline card-header">
+			<div class="card card-primary ">
+				<div class=" card-outline card-header">
 					<h4>Cierre de caja</h4>
 				</div>
 
@@ -37,7 +37,7 @@
                                      
                                         <div class="col-md-4">
                                             <label class="sr-only">N° de caja</label><br>
-                                            <input class="form-control" type="text"  id="caja_id"  name="caja_id" placeholder="Cantidad de efectivo en caja" required="true" oninvalid="this.setCustomValidity('Debe ingresar la cantidad de efectivo en caja.')" oninput="setCustomValidity('')" value="{{ Auth::user()->caja_id }} ">
+                                            <input class="form-control" type="text"  id="caja_id"  name="caja_id" placeholder="Cantidad de efectivo en caja" required="true" oninvalid="this.setCustomValidity('Debe ingresar la cantidad de efectivo en caja.')" oninput="setCustomValidity('')" value="1">
                                         </div>
 									
 									<div class="col-md-4">

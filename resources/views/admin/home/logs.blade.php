@@ -19,7 +19,7 @@
                       </a>
                     </li>
                   </ul><br>
-	                <table  class="display table table-striped " style="width:100%" id="example1">
+	                <table  class="display table table-striped " style="width:100%">
 	                    <thead>
 	                    <tr>
 	                    <th>#</th>

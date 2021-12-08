@@ -29,46 +29,42 @@
 					</ul><br> 
 				
 					<div class="row">
-						
-							<div class="col-md-4">
-								<legend>Registro de producto</legend>
-								<form id="quickForm" role="form" method="POST" action="/productos/nuevo">
-									{{ csrf_field() }}
-									<div class="form-group">
-										<label for="txtCodigo" class="control-label sr-only ">Código</label>
+						{!! Form::model(['url' => ['productos/guardar'],'method' => 'POST']) !!}
+						<div class="col-sm-12">
+							<div class="row">
+								<div class="col-sm-4">
+										<div class="form-group">
+										<label for="txtCodigo" class="control-label  ">Código</label>
 										<input id="txtCodigo" type="text" class="form-control" name="codigo" placeholder="Código de producto"  value="{!! old('codigo') !!}" oninvalid="this.setCustomValidity('Debe ingresar un código para registrar el producto')" required oninput="setCustomValidity('')">
 									</div>
-
+								</div>
+								<div class="col-sm-4">
 									<div class="form-group">
-										<label for="txtNombre" class="control-label sr-only ">Nombre</label>
+										<label for="txtNombre" class="control-label  ">Nombre</label>
 										<input id="txtNombre" type="text" class="form-control" name="nombre" placeholder="Nombre de producto" oninvalid="this.setCustomValidity('Debe ingresar un nombre de producto')"  required oninput="setCustomValidity('')">
 									</div>
+								</div>
+								<div class="col-sm-4">
 									<div class="form-group">
-										<label for="txtNombre" class="control-label sr-only ">Marca</label>
-										<input id="txtNombre" type="text" class="form-control" name="marca" placeholder="Marca del producto" oninvalid="this.setCustomValidity('Debe ingresar la marca del producto')"  required oninput="setCustomValidity('')">
+										<label for="txtCodigoDeBarras" class="control-label  ">
+											Marca del producto
+										</label>
+										<input id="txtMarcaProducto" type="text" class="form-control" name="marca_producto" placeholder="Marca del producto"  value="{!! old('marca_producto') !!}"  >
 									</div>
+								</div>
+								<div class="col-sm-4">
 									<div class="form-group">
-										<label for="txtNombre" class="control-label sr-only ">Modelo</label>
-										<input  type="text" class="form-control" name="modelo" placeholder="Modelo del producto" oninvalid="this.setCustomValidity('Debe ingresar el modelo del producto')"  required oninput="setCustomValidity('')">
-									</div>
-									
-									<div class="form-group">
-										<label for="txtCodigoDeBarras" class="control-label sr-only ">
+										<label for="txtCodigoDeBarras" class="control-label  ">
 											Código de barras
 										</label>
 										<input id="txtCodigoDeBarras" type="text" class="form-control" name="codigo_de_barras" placeholder="Código de barras"  value="{!! old('codigo_de_barras') !!}"  >
 									</div>
-									
+								</div>
+								<div class="col-sm-4">
 									<div class="form-group">
-										<label for="txtNombre" class="control-label sr-only sr-only ">
+										<label for="txtNombre" class="control-label   ">
 											Categoría del producto
-											<a href="#formFamiliaProducto" class="btn-link" data-toggle="modal" data-target="#formFamiliaProducto" style="color:green">
-												<small>
-													<i class="fa fa-plus" aria-hidden="true">
-														Agregar
-													</i>
-												</small>
-											</a>
+										
 										</label>
 
 										<div class="input-group float-right">
@@ -85,29 +81,34 @@
 												</a>
 											</div>
 										</div>
-									</div><br><br><br>
-									<!-- DATOS DE FACTURA -->
-									
-									
-									<div class="form-group  ">
+									</div>
+								</div>
+								<div class="col-sm-4">
+										<div class="form-group  ">
 										<label >Precio de compra</label>
 										<input class="form-control input-sm" type="text" name="precio_compra" placeholder="Precio de compra">
 									</div>
-									<div class="form-group">
-										<label for="txtPrecio" class="control-label sr-only ">Precio de venta</label>
-										<input id="txtPrecio" class="form-control" name="precio" placeholder="Precio en {{App\Models\Moneda::find(2)->simbolo }}">
+								</div>
+								<div class="col-sm-4">
+										<div class="form-group">
+										<label for="txtPrecio" class="control-label  ">Precio de venta</label>
+										<input id="txtPrecio" class="form-control" name="precio" placeholder="Precio de venta en {{App\Models\Moneda::find(2)->simbolo }}">
 									</div>
-
-									
-									<div class="form-group">										
-										<label for="txtStock" class="control-label sr-only ">Cantidad inicial</label>
-										<input id="txtStock" type="text" class="form-control" name="stock" placeholder="Stock inicial del producto">
+								</div>
+								<div class="col-sm-4">
+										<div class="form-group">										
+										<label for="txtStock" class="control-label  ">Cantidad inicial</label>
+										<input id="txtStock" type="text" class="form-control" name="stock" placeholder="Cantidad inicial del producto">
 									</div>
+								</div>
+								<div class="col-sm-4">
 									<div class="form-group">		
 			           <label class="mt-1">Sucursal</label>
                   {!! Form::select('sucursal_id', $sucursales, null,array('class' => 'form-control input-sm','placeholder'=>'Selecione la sucursal','id'=>'sucursal_id')) !!} 
                   </div>
-                  <div class="form-group">
+								</div>
+								<div class="col-sm-4">
+									 <div class="form-group">
                   	<label class="mt-1">¿Producto con garantia?</label>
 											<select id="producto_garantia" class="form-control " name="producto_garantia" required="true">
 												<option value="" disabled selected hidden>Seleccione</option>
@@ -121,19 +122,43 @@
 									</div>
 										
 										</div>
-									<div class="form-group" style="">
-										<label for="txtDescripcion" class="control-label sr-only ">Descripción</label>
+								</div>
+								<div class="col-sm-4">
+										<div class="form-group" style="">
+										<label for="txtDescripcion" class="control-label  ">Fecha de fabricación</label>
+										<input id="txtCodigo" type="date" class="form-control" name="fecha_fabricacion" placeholder="Código de producto"  value="{!! old('codigo') !!}" oninvalid="this.setCustomValidity('Debe ingresar un código para registrar el producto')" required oninput="setCustomValidity('')">
+									</div>	
+								</div>
+								<div class="col-sm-4">
+										<div class="form-group" style="">
+										<label for="txtDescripcion" class="control-label  ">Fecha de vencimiento</label>
+										<input id="txtCodigo" type="date" class="form-control" name="fecha_vencimiento" placeholder="Código de producto"  value="{!! old('codigo') !!}" oninvalid="this.setCustomValidity('Debe ingresar un código para registrar el producto')" required oninput="setCustomValidity('')">
+									</div>	
+								</div>
+								<div class="col-sm-6">
+										<div class="form-group" style="">
+										<label for="txtDescripcion" class="control-label  ">N° de lote</label>
+										<input id="txtCodigo" type="text" class="form-control" name="lote" placeholder="Código de producto"  value="{!! old('codigo') !!}" oninvalid="this.setCustomValidity('Debe ingresar un código para registrar el producto')" required oninput="setCustomValidity('')">
+									</div>	
+								</div>
+
+								<div class="col-sm-6">
+										<div class="form-group" style="">
+										<label for="txtDescripcion" class="control-label  ">Descripción</label>
 										<textarea class="form-control" id="txtDescripcion" rows="3" placeholder="Descripción del producto" name="descripcion"></textarea>
-									</div>								
-
-									<div class="form-group text-center">
-										<input type="submit" class="btn blue darken-4 text-white btn-block" value="Guardar">
-									</div>		                    		
-								</form>   
-
-							</div>
-		
-							<div class="col-md-8 ">
+									</div>	
+								</div>
+								
+									<div class="col-sm-12">
+									  <button type="submit" class="btn blue darken-4 form-control" 
+									   id="boton">
+										  <i class="fas fa-save text-white" id="ajax-icon"></i>
+										   <span class="text-white ml-3">{{ __('Guardar') }}</span>
+									  </button>
+									</div>
+									{!! Form::close()!!}
+								  </div>
+								 <div class="col-md-12 ">
 								<legend>Últimos productos registrados</legend>
 								<div class="table-responsive">
 									<table class="table table-bordered table-hover display">
@@ -173,9 +198,12 @@
 									
 								</div>
 							</div>
-							<div class="col-md-5 col-md-offset-2">                					
-								
 							</div>
+						</div>
+							
+
+		
+							
 							@include('partials.familia_producto_box')
 						</div>
 					</div>                        
@@ -183,7 +211,6 @@
 			</div>
 		</div>
 	</div>
-</div>
 @endsection
 
 @push('scripts')

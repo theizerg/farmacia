@@ -110,15 +110,32 @@
 										<table width="100%" class="table table-condensed table-striped table-bordered">
 											<thead>
 												<tr>
-													<th class="text-center" width="60px">Comprobante</th>
+													
 													<th class="text-center" width="120px">Fecha</th>
-													<th class="text-center">Producto</th>
-													<th class="text-center" width="60px">Cant.</th>
+													<th class="text-center">Tipo de compras</th>
+													
 													<th class="text-center" width="100px">Total</th>
+													<th></th>
 												</tr>
 											</thead>
 											<tbody>
-												
+												@foreach($compras as $c)
+													<tr>
+														
+														<td>{{ date_format(date_create($c->fechaEmision), 'd/m/Y' ) }}</td>
+														<td class="text-center">
+															{{ $c->tipo->name }}
+														</td>
+														<td style="text-align: right;">
+															{{ $c->moneda->simbolo }} {{ $c->total }}
+														</td>														
+														<td class="text-center">
+															<a href="/compras/detalle/{{$c->id}}">
+																<i class="fas fa-external-link-alt"></i>
+															</a>
+														</td>
+													</tr>													
+												@endforeach
 											</tbody>
 										</table>
 									</div>

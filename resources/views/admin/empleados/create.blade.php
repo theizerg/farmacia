@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card card-line-primary">
-				<div class="card-primary card-outline card-header">
+				<div class=" card-header">
 					<h4>Creación de empleados</h4>
 				</div>
 
@@ -78,6 +78,10 @@
 </div>
 @endsection
 @push('scripts')
+<script>
+
+
+</script>
 
 <script>
 	$('#empleados_form').validate({
@@ -178,6 +182,17 @@
       $(element).removeClass('is-invalid');
     }
   });
+
+//Date picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+
+$('#ingresodate').datetimepicker({
+        format: 'L'
+    });
+ $('[data-mask]').inputmask();
+    
 </script>
 @endpush
  

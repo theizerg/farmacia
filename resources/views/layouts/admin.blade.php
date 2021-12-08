@@ -3,37 +3,32 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{{ env('APP_NAME') }} - @yield('title')</title>
+        <title>SISVENTAS - @yield('title')</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <meta name="robots" content="noindex, nofollow">
 
 
-        <link rel="stylesheet" href="{{ asset('css/plugins.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/system.css') }}">
-        <link rel="icon" href="{{ asset('images/logo/logo-imagen.png') }}">
-            <!-- Material Icons -->
-            <link rel="stylesheet" href="/assets/googlefonts/css/css.css">
-
-
-        @stack('styles')
+        <link rel="stylesheet" href="{{ asset('css/some.css') }}">
+        <link rel="icon" href="{{ asset('images/fondo/logo-hexagono.png') }}">
+         @stack('styles')
     </head>
-    <body class="hold-transition sidebar-mini layout-fixed">
+    <body class="hold-transition sidebar-mini layout-fixed ">
         <div class="wrapper" id="body">
 
 
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light" id="sidebar">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light blue-gradient-dark">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars text-white"></i></a>
+            <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        </li>
+        
         </li>
         <li class="nav-item d-none d-sm-inline-block">
 
         </li>
-
-        @can('VerNotificaciones')
-      
-        @endcan
         </ul>
 
         <!-- SEARCH FORM -->
@@ -51,21 +46,37 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu" >
-                   
-                    <ul class="dropdown-menu"  style="color:#ffff;">
-                    <li class="user-header" id="opciones">
+                    <a href="#" class="dropdown-toggle text-white" data-toggle="dropdown">
+                    
+                    <span class="fa fa fa-user"></span>
+                    <span class="hidden-xs">{{ Auth::user()->display_name}} </span>
+                    </a>
+                    <ul class="dropdown-menu text-white">
+                    <li class="user-header blue darken-4">
                        <!-- <img src="{{ asset('images/user/user1-128x128.jpg') }}" class="img-circle" alt="User Image">-->
-                        <i class="fa fa-user fa-5x" style="color:#fff;"></i>
+                    <i class="fa fa-user fa-5x" style="color:#fff;"></i>
                         <p>
                         {{ Auth::user()->display_name }}
                         <br>
-                        {{ Auth::user()->hasrole('Administrador') ? 'Administrador' : 'Usuario' }}
-
-
-
-                        </p>
+                        {{ Auth::user()->hasrole('Super Administrador') ? 'Administrador' : 'Usuario del sistema' }}
+                        <small>Miembro desde {{ Auth::user()->created_at->format('d-m-Y') }}</small>
+                       </p>
                     </li>
-                    
+                    <li class="user-footer">
+                      <div class="float-left">
+                        <a href="{{ url('user', [Auth::user()->encode_id]) }}" class="btn btn-link btn-flat">
+                            <i class="fa fa-eye"></i> Datos
+                        </a>
+                        </div>
+                          <div class="float-right">
+                        <a href="logout" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn btn-link btn-flat">
+                            <i class="fas fa-sign-out-alt"></i> Salir
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                        </div>
+                    </li>
                     </ul>
                 </li>
                 <!-- Control Sidebar Toggle Button -->
@@ -87,7 +98,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper"><br>
             <section class="content-header">
             <h1 class="ml-3">
                 @yield('page_title')
@@ -105,14 +116,14 @@
             <section class="content container-fluid">
             <!--Page Content Here -->
             @yield('content')
-
+            
             </section>
         </div>
 
 
 
         <!-- Main Footer -->
-       <footer class="main-footer">
+        <footer class="main-footer">
         <strong>Copyright &copy; 2021 <a target="_blank" href="https://instagram.com/theizerg_"> Theizer González</a> Desarrollador - Development.</strong>
         Todos los derechos reservados.
         <div class="float-right d-none d-sm-inline-block">
@@ -121,17 +132,19 @@
        </footer>
 
         <!-- Control Sidebar -->
-        <!-- Uncomment this line to activate the control right sidebar menu
-        @@include('layouts.partials.sidebar')
-        -->
+        
+        
+        
         </div>
 
         <!-- REQUIRED JS SCRIPTS -->
         <!-- jQuery -->
-        <script src="{{asset('js/plugins.js')}}"></script>
-        <script src="{{asset('js/system.js')}}"></script>
-        <script src="{{asset('js/vendors.js')}}"></script>
-         <script>
+        <script src="{{asset('js/app.js')}}"></script>
+        <script src="{{asset('js/some.js')}}"></script>
+        <script src="{{ asset('js/system.js') }}"></script>
+        
+        @stack('scripts')
+        <script>
 
          @if(Session::has('message'))
          var type = "{{ Session::get('alert-type', 'info') }}";
@@ -154,22 +167,6 @@
          }
      @endif
      </script>
-     <script>
-     /** add active class and stay opened when selected */
-var url = window.location;
-
-// for sidebar menu entirely but not cover treeview
-    $('ul.nav-sidebar a').filter(function() {
-        return this.href == url;
-    }).addClass('active');
-
-    // for treeview
-    $('ul.nav-treeview a').filter(function() {
-        return this.href == url;
-    }).parentsUntil(".nav-link > .nav-treeview").addClass('active menu-open').prev('a').addClass('active');
-
-   
- </script>
         @stack('scripts')
 
         <style>
@@ -177,7 +174,7 @@ var url = window.location;
         #sidebar{
 
 
-                background:linear-gradient(to left,#0285D0,#0073AF,#004876);
+                
                 }
 
 
@@ -191,5 +188,9 @@ var url = window.location;
 
         </style>
 
-    </body>
+        @can('VerNotificaciones')
+
+
+@endcan
+  </body>
 </html>

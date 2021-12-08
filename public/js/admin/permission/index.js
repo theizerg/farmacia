@@ -37,11 +37,7 @@ $(document).ready(function(){
                   $('#main-form input, #main-form button').removeAttr('disabled');
                   $('#main-form #password, #main-form #password_confirmation, #main-form #current_password').val('');
                   $('#ajax-icon').removeClass('fa fa-spin fa-refresh').addClass('fa fa-edit');
-                  toastr.success({
-                    title: 'Éxito!',
-                    message: 'Datos guardados satisfactoriamente',
-                    position: 'topRight'
-                  });
+                  toastr.success('Datos ingresados exitosamente');
                 }
               },error: function (data) {
                 var errors = data.responseJSON;

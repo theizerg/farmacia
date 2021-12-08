@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Models\Log\LogSistema;
 use App\Models\User;
@@ -32,20 +33,27 @@ class HomeController extends Controller
      */
     public function index()
     {   
-        if (\Auth::user()->hasRole('Super Administrador')) {
+        
 
-           
+        
         $gastos     = Gastos::sum('cantidad');
         $ganancias  = Ganancia::sum('total');
 
-        
-        return view('admin.home.index', compact('gastos',
-                                                'ganancias',
-                                                'notificacion'
-                                                ));
-        }else if (\Auth::user()->hasRole('Gerente')) {
 
-             $notificacion = Notificacion::cargarNotificaciones();
+            //dd(LogSistema::get());
+        $date_current = Carbon::now()->toDateTimeString();
+
+        $prev_date1 = $this->getPrevDate(1);
+        $prev_date2 = $this->getPrevDate(2);
+        $prev_date3 = $this->getPrevDate(3);
+        $prev_date4 = $this->getPrevDate(4);
+
+        $emp_count_1  = User::whereBetween('created_at',[$prev_date1,$date_current])->count();
+        $emp_count_2  = User::whereBetween('created_at',[$prev_date2,$prev_date1])->count();
+        $emp_count_3  = User::whereBetween('created_at',[$prev_date3,$prev_date2])->count();
+        $emp_count_4   = User::whereBetween('created_at',[$prev_date4,$prev_date3])->count();
+
+          $notificacion = Notificacion::cargarNotificaciones();
 
             //dd(LogSistema::get());
         $date_current = Carbon::now()->toDateTimeString();
@@ -89,9 +97,16 @@ class HomeController extends Controller
         $log->tx_descripcion = 'El usuario: '.auth()->user()->display_name.' Ha ingresado al home del sistema a las: '
         . date('H:m:i').' del día: '.date('d/m/Y');
         $log->save();
+
+          $notificacion = Notificacion::cargarNotificaciones();
         return view('admin.home.index', compact('gastos',
                                                 'ganancias',
+                                                'emp_count_1',
+                                                'emp_count_2',
+                                                'emp_count_3',
+                                                'emp_count_4',
                                                 'notificacion',
+
                                                 'venta_count_1',
                                                 'venta_count_2',
                                                 'venta_count_3',
@@ -101,24 +116,12 @@ class HomeController extends Controller
                                                 'venta_detalle_3',
                                                 'venta_detalle_4'
                                                 ));
-      
-    }else{
-        
-        $notificacion = Notificacion::cargarNotificaciones();
-        
-         $log = new LogSistema();
-        
-        $log->user_id = auth()->user()->id;
-        $log->tx_descripcion = 'El usuario: '.auth()->user()->display_name.' Ha ingresado al home del sistema a las: '
-        . date('H:m:i').' del día: '.date('d/m/Y');
-        $log->save();
-        return view('admin.home.index', compact('gastos',
-                                                'ganancias',
-                                               
-                                                'notificacion'
-                                                ));
+       
 
-    }
+           
+        
+      
+    
 }
 
     public function logs()
@@ -135,6 +138,7 @@ class HomeController extends Controller
     }
 
     public function borrarNotificacion(Request $request, $notificacion_id){
+        
         if($request->ajax()){            
             $notificacion = Notificacion::find($notificacion_id);
             $usuario = \Auth::user();
@@ -164,7 +168,6 @@ class HomeController extends Controller
         $prev_date1 = $this->getPrevDate(1);
         $venta_detalle_1  = LineaProducto::whereBetween('fecha',[$request->desde,$request->hasta])
         ->with('producto')
-        ->where('comprobante_id','<>', 0)
         ->get();
      
         return view ('admin.home.desgloceganancias', compact('venta_detalle_1'));
@@ -173,5 +176,4 @@ class HomeController extends Controller
 
     }   
 
-     
 }

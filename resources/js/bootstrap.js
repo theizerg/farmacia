@@ -9,8 +9,17 @@ window._ = require('lodash');
 try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
+   /* toastr */
+window.toastr = require('toastr');
+toastr.options.preventDuplicates = true;
 
-    require('bootstrap');
+/* pace-progress */
+window.Pace = require('@dlghq/pace-progress');
+
+/* iCheck */
+require('icheck');
+
+   
 } catch (e) {}
 
 /**

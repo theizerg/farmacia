@@ -11,8 +11,8 @@
 	</div><br>
 	<div class="row">    
 		<div class="col-md-12">
-			<div class="card">
-				<div class="card-primary card-outline card-header">
+			<div class="card card-line-primary ">
+				<div class=" card-header">
 					<h4>Vista general del historial de pagos a los empleados</h4>
 				</div>
 				<div class="card-body">
@@ -27,11 +27,7 @@
 								Pagos
 							</a>
 						</li>						
-					</ul><br>
-					
-
-					
-			
+					</ul><br>				
 					<div class="table-responsive">
 						<table id="example" cellspacing="0" class="table table-hover table-border">
 							<thead>

@@ -2,9 +2,9 @@
 @section('title', 'Pagos')
 @section('content')
 
-<div class="card card-primary card-outline">
+<div class="card card-line-primary">
   <div class="col-xs-12">
-    <div class=" card-primary card-outline card-header">
+    <div class="card-header">
       <h2 class="card-title">
         <i class="fa fa-user"></i> Datos del empleado
         <h5 class="pull-right ml-3">({{ $pagos->empleado->nb_nombre }})</h5>
