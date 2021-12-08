@@ -14,10 +14,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-       if (env('REDIRECT_HTTPS')) {
+        \Schema::defaultStringLength(350);
+        \Carbon\Carbon::setToStringFormat('d-m-Y h:i A');
+
+        if (env('REDIRECT_HTTPS')) {
            $this->app['request']->server->set('HTTPS', true);
        }
     }
+
     /**
      * Bootstrap any application services.
      *
@@ -25,7 +29,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(UrlGenerator $url)
     {
-       if (env('REDIRECT_HTTPS')) {
+        
+        if (env('REDIRECT_HTTPS')) {
            $url->formatScheme('https://');
        }
     }
