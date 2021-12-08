@@ -64,7 +64,7 @@
                     </li>
                     <li class="user-footer">
                       <div class="float-left">
-                        <a href="{{ url('user', [Auth::user()->encode_id]) }}" class="btn btn-link btn-flat">
+                        <a href="{{ url('user', [Auth::user()->id]) }}" class="btn btn-link btn-flat">
                             <i class="fa fa-eye"></i> Datos
                         </a>
                         </div>
